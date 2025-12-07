@@ -1,28 +1,34 @@
-const questionContainer = document.querySelector(".question-container");
-const resultContainer = document.querySelector(".result-container.yes");
-const gifResult = document.querySelector(".gif-result");
-const heartLoader = document.querySelector(".cssload-main");
-const yesBtn = document.querySelector(".js-yes-btn");
-const noBtn = document.querySelector(".js-no-btn");
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const sparklesContainer = document.querySelector('.sparkles');
 
-// /change the postion of no button
-noBtn.addEventListener("mouseover", () => {
-  const newX = Math.floor(Math.random() * questionContainer.offsetWidth);
-  const newY = Math.floor(Math.random() * questionContainer.offsetWidth);
-
-  noBtn.style.left = `${newX}px`;
-  noBtn.style.top = `${newY}px`;
+// Move "No" button randomly on hover
+noBtn.addEventListener('mouseover', () => {
+    const x = Math.random() * (window.innerWidth - noBtn.clientWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.clientHeight);
+    noBtn.style.position = 'absolute';
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
 });
 
-// yes button functionality
-
-yesBtn.addEventListener("click", () => {
-  questionContainer.style.display = "none";
-  heartLoader.style.display = "inherit";
-
-  const timeoutId = setTimeout(() => {
-    heartLoader.style.display = "none";
-    resultContainer.style.display = "inherit";
-    gifResult.play();
-  }, 3000);
+// "Yes" button -> go to cute page
+yesBtn.addEventListener('click', () => {
+    window.location.href = 'yes.html';
 });
+
+// Generate floating sparkle hearts
+function createSparkle() {
+    const sparkle = document.createElement('div');
+    sparkle.classList.add('sparkle');
+    sparkle.style.left = Math.random() * window.innerWidth + 'px';
+    sparkle.style.fontSize = (Math.random() * 20 + 15) + 'px';
+    sparkle.innerText = '💖';
+    sparklesContainer.appendChild(sparkle);
+
+    setTimeout(() => {
+        sparkle.remove();
+    }, 6000); // same as animation duration
+}
+
+// Continuously generate sparkles
+setInterval(createSparkle, 300);
